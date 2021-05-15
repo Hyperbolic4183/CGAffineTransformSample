@@ -9,44 +9,32 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    let springButton = UIButton()
+    let button = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setupSpringButton()
+        setupButton()
         // Do any additional setup after loading the view.
     }
 
-    func setupSpringButton() {
-        springButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(springButton)
+    func setupButton() {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
         NSLayoutConstraint.activate([
-            springButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
-            springButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            springButton.widthAnchor.constraint(equalToConstant: 200),
-            springButton.heightAnchor.constraint(equalToConstant: 60)
+            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-        springButton.layer.cornerRadius = 60/2
-        springButton.layer.cornerCurve = .continuous
-        springButton.backgroundColor = .blue
-        springButton.setTitle("ボタン", for: .normal)
-        springButton.addTarget(self, action: #selector(sprintButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .blue
+        button.setTitle("ボタン", for: .normal)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    @objc func sprintButtonTapped(sender: UIButton) {
-        animateView(sender)
+    @objc func buttonTapped() {
+        UIView.animate(withDuration: 1.0, delay: 0,options: .curveEaseOut,animations: {
+            self.button.transform = CGAffineTransform(scaleX: 2, y: 2)
+        })
     }
     
-    func animateView(_ viewToAnimate:UIView) {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
-            viewToAnimate.transform = CGAffineTransform(scaleX: 1.08, y: 1.08)
-        }) { (_) in
-            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 10, options: .curveEaseOut, animations: {
-                viewToAnimate.transform = .identity
-                
-            }, completion: nil)
-        }
-    }
 }
 
